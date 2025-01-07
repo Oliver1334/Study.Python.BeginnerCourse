@@ -26,4 +26,12 @@ False
 # None - absence of information
 None
 
+# A data type is a type of data that is friendly to python
 
+#2.0 Variables - a variable is a label from some data
+number_of_eggs = 5
+#python 'case' uses _ for spaces 
+
+my_string = 'hello world'
+
+print(number_of_eggs * 2)
