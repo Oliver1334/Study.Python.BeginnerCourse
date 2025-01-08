@@ -14,9 +14,13 @@ print('hello world')
 shopping_list = ['eggs', 'bananas', 'milk', 4, []]
 
 # this is an object data type / dictionary
+def jello():
+    print('jello')
+
 person = {
     "name": "Oliver",
-    "age": 29
+    "age": 29,
+    "action": jello
 }
 
 # boolean - true or false value
@@ -121,4 +125,23 @@ def multiply_two_numbers(a, b):
 product = multiply_two_numbers(8, 7)
 print(product)
 
-#Class / Classes
+# Class / Classes
+# like an extension of an object, capitalised (englishism)
+
+#methods in classes always have one default argument 'self'
+class Person:
+    def __init__(self, name, age): #how python class takes arguments
+        self.name = name
+        self.age = age
+
+    def jello_two(self):
+        print('jello jello')
+
+#instantiate class
+new_person = Person('doug', 28)
+
+new_person.jello_two()
+print(new_person.name)
+
+new_new_person = Person('lucy', 42)
+print(new_new_person.name)
