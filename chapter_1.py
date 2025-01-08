@@ -81,5 +81,26 @@ x != y # this would be true because x is not equal to y
 if not number_of_eggs == 4:
     print(f'The number of eggs is not equal to four, but instead: {number_of_eggs}')
 
-#Loops
+#Loops (while / for)
+count = 0
+while count < number_of_eggs:
+    print('hello world')
+    count = count + 1
+    if count == 3:
+        break
+
+for x in shopping_list:
+    print(x)
+    
+for i in range(10):
+    print(i)
+
+length_of_my_array = len(shopping_list)
+
+for j in range(length_of_my_array):
+    current_index = j
+    current_value = shopping_list[current_index]
+    print(f'The current index is {current_index} and the value at that index in the list/array is {current_value}')
+
+
 
