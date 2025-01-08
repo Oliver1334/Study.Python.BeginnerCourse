@@ -81,7 +81,7 @@ x != y # this would be true because x is not equal to y
 if not number_of_eggs == 4:
     print(f'The number of eggs is not equal to four, but instead: {number_of_eggs}')
 
-#Loops (while / for)
+# Loops (while / for)
 count = 0
 while count < number_of_eggs:
     print('hello world')
@@ -102,5 +102,23 @@ for j in range(length_of_my_array):
     current_value = shopping_list[current_index]
     print(f'The current index is {current_index} and the value at that index in the list/array is {current_value}')
 
+# Functions
+# def for define to define functions in python
 
+def print_funny_word(funny_word):
+    # this function takes an argument and prints out the word provided as an argument in the following formatted string...
+    # '''text in here''' triple quotation marks for multi-line strings
+    print(f'{funny_word} is a funny word!')
 
+print_funny_word('Schnee') # German for Snow
+
+for k in range(3):
+    print_funny_word('Gesundheit')
+
+def multiply_two_numbers(a, b):
+    return a * b
+
+product = multiply_two_numbers(8, 7)
+print(product)
+
+#Class / Classes
