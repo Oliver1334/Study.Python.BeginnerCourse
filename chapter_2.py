@@ -29,13 +29,26 @@ class VocabCard:
         self.repetitions = repetitions
         self.interval = interval
         self.ease_factor = ease_factor
-        self.review_counter = review_counter
+        self.review_counter = review_counter # When this reaches 0, the word is due for review
         self.is_new = is_new
     
     def update_card(self):
         #This method is responsible for handling an encounter with the word and updating when we should encounter it next and a few other things
+        if self.repetitions == 0:
+            self.interval = 2
+        elif self.repetitions == 1:
+            self.interval = 4
+        else:
+            self.interval = round(self.interval * self.ease_factor)
 
-        return
+        self.repetitions += 1
+        self.is_new = False
+
+        self.ease_factor = max(1.3, self.ease_factor + 0.1) #increment ease factor slightly
+
+        self.review_counter = self.interval
+
+        
     
     def is_learned(self):
         #Telling us if this word is learned completely which is based off a max_repetitions parameter that we will define later
@@ -55,4 +68,4 @@ class VocabCard:
 
 if __name__ == '__main__':
     vocab_cards = load_vocab_from_json('definitions.json')
-    print(vocab_cards)
+    print('Starting vocab learning session...')
