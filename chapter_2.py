@@ -17,6 +17,12 @@ def load_vocab_from_json(file_path):
         result[word] = VocabCard(word, definition)
     return result 
 
+def write_list_to_csv(words_list, output_file):
+    #Writes a list of words to a csv file with each word wrapped in double quotes
+    with open(output_file, mode="w", newline='', encoding='utf-8') as file:
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
+        for word in words_list:
+            writer.writerow([word])
 
 
 # 1.2 create a complex object that keeps track of a whole lot of properties about the word or attributes / therefore we need to define a class for this object
@@ -106,13 +112,19 @@ def review_session(vocab_cards, max_repetitions=5):
                     break
 
         #Review the due words
+        for card in due_words:
+            print(f'Reviewing: {card.word}')
+            history.append(card.word) # track the word in history
+            card.update_card()
+            total_words_reviewed += 1
 
+    #1.5 save this long list of all our words to a csv file, that can be later read by our game
     #write out our history list to a csv file
+    output_file = 'words_history.csv'
+    write_list_to_csv(history, output_file)
+    print(len(history))
 
 
-
-
-#1.5 save this long list of all our words to a csv file, that can be later read by our game
 
 
 if __name__ == '__main__':
