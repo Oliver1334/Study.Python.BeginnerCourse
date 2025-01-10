@@ -67,6 +67,47 @@ def show_word_status(vocab_cards):
 
     return due_words
 
+def review_session(vocab_cards, max_repetitions=5):
+    #Reviews words until all are ordered / mastered
+    history = [] # Tracks the order of words reviewed or introduced
+    total_words_reviewed = 0
+
+    #write spaced repetition algorithm
+    while True:
+        #Reduce review counter for all words
+        for card in vocab_cards.values():
+            if card.review_counter > 0:
+                card.review_counter -= 1
+
+        #Get words due for review
+        due_words = show_word_status(vocab_cards)
+
+        #If no due words, introduce a new word as a filler
+        if not due_words:
+            filler_word = None
+            for card in vocab_cards.values():
+                if card.is_new:
+                    filler_word = card
+                    break
+            if filler_word:
+                filler_word.is_new = False # mark as no longer new
+                print(f'Introducing a new word: {filler_word.word}')
+                history.append(filler_word.word)
+                total_words_reviewed += 1
+                continue
+            else:
+                all_learned = True
+                for card in vocab_cards.values():
+                    if not card.is_learned(max_repetitions):
+                        all_learned = False
+                        break
+                if all_learned:
+                    print('Congrats! All words are learned :)')
+                    break
+
+        #Review the due words
+
+    #write out our history list to a csv file
 
 
 
