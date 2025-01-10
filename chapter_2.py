@@ -17,6 +17,12 @@ def load_vocab_from_json(file_path):
         result[word] = VocabCard(word, definition)
     return result 
 
+def write_list_to_csv(words_list, output_file):
+    #Writes a list of words to a csv file with each word wrapped in double quotes
+    with open(output_file, mode="w", newline='', encoding='utf-8') as file:
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
+        for word in words_list:
+            writer.writerow([word])
 
 
 # 1.2 create a complex object that keeps track of a whole lot of properties about the word or attributes / therefore we need to define a class for this object
@@ -67,11 +73,58 @@ def show_word_status(vocab_cards):
 
     return due_words
 
+def review_session(vocab_cards, max_repetitions=5):
+    #Reviews words until all are ordered / mastered
+    history = [] # Tracks the order of words reviewed or introduced
+    total_words_reviewed = 0
+
+    #write spaced repetition algorithm
+    while True:
+        #Reduce review counter for all words
+        for card in vocab_cards.values():
+            if card.review_counter > 0:
+                card.review_counter -= 1
+
+        #Get words due for review
+        due_words = show_word_status(vocab_cards)
+
+        #If no due words, introduce a new word as a filler
+        if not due_words:
+            filler_word = None
+            for card in vocab_cards.values():
+                if card.is_new:
+                    filler_word = card
+                    break
+            if filler_word:
+                filler_word.is_new = False # mark as no longer new
+                print(f'Introducing a new word: {filler_word.word}')
+                history.append(filler_word.word)
+                total_words_reviewed += 1
+                continue
+            else:
+                all_learned = True
+                for card in vocab_cards.values():
+                    if not card.is_learned(max_repetitions):
+                        all_learned = False
+                        break
+                if all_learned:
+                    print('Congrats! All words are learned :)')
+                    break
+
+        #Review the due words
+        for card in due_words:
+            print(f'Reviewing: {card.word}')
+            history.append(card.word) # track the word in history
+            card.update_card()
+            total_words_reviewed += 1
+
+    #1.5 save this long list of all our words to a csv file, that can be later read by our game
+    #write out our history list to a csv file
+    output_file = 'words_history.csv'
+    write_list_to_csv(history, output_file)
+    print(len(history))
 
 
-
-
-#1.5 save this long list of all our words to a csv file, that can be later read by our game
 
 
 if __name__ == '__main__':
