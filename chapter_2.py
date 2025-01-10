@@ -20,6 +20,8 @@ def load_vocab_from_json(file_path):
 
 
 # 1.2 create a complex object that keeps track of a whole lot of properties about the word or attributes / therefore we need to define a class for this object
+# 1.2.1 we're going to need to define a bunch of methods (functions specific to a class that are kind of like actions - such as a method, that we can use to automatically handle a word encounter)
+# 1.3 instantiate this class/object for every word
 class VocabCard: 
     #represents a single vocab card
     def __init__(self, word, definition, repetitions = 0, interval = 1, ease_factor = 2.5, review_counter = 0, is_new = True):
@@ -48,21 +50,27 @@ class VocabCard:
 
         self.review_counter = self.interval
 
-        
-    
-    def is_learned(self):
+    def is_learned(self, max_repetitions=5):
         #Telling us if this word is learned completely which is based off a max_repetitions parameter that we will define later
-        return
+        return self.repetitions >= max_repetitions
 
 
-
-
-
-
-
-# 1.2.1 we're going to need to define a bunch of methods (functions specific to a class that are kind of like actions - such as a method, that we can use to automatically handle a word encounter)
-# 1.3 instantiate this class/object for every word
 # 1.4 we can create the spaced repetition algorithm that we'll use to create this long list that cleverly introduces new words, and tests old words at the appropriate intervals
+def show_word_status(vocab_cards):
+    #Displays the current status of the words and also returns the due words (which is a list)
+    #series of print statements with statistics from vocab card to illustrate where user is in algorithm
+    due_words = []
+    for card in vocab_cards.values():
+        # one by one, check the vocab card class assigned to each word and see if it's due for review, if so add it to our array/list of due words
+        if card.review_counter <= 0 and card.is_new == False:
+            due_words.append(card)
+
+    return due_words
+
+
+
+
+
 #1.5 save this long list of all our words to a csv file, that can be later read by our game
 
 
