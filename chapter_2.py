@@ -130,3 +130,4 @@ def review_session(vocab_cards, max_repetitions=5):
 if __name__ == '__main__':
     vocab_cards = load_vocab_from_json('definitions.json')
     print('Starting vocab learning session...')
+    review_session(vocab_cards)
