@@ -17,15 +17,52 @@ def load_words_from_csv(file_path):
 def load_definitions_from_json(file_path):
     #load definitions from json file
     with open(file_path, 'r') as f:
-        definitions = json.loads(f)
+        definitions = json.load(f)
     return definitions
 
 # 2.2 define a continuous while loop, that tests the user on each word in the list, one after another in the provided order, and will only exit when each word has been mastered, or the user makes a mistake
 
 def test_user(words, definitions):
+    #Test the user on the words and their definitions
+
+    high_score = 0
+    encountered_words = set() # Track which words the user has already encountered, set removes duplicates in array
+
+    for word in words:
+        print(f'\nDefine: {word}')
+
+        # If we have a word that isn't defined, skip it - error handling
+        if word not in definitions:
+            print('\nDefinition not found for this word. Skipping...')
+
+        #Can confirm word has a definition, so we can test a user
+        definition = definitions[word]
+
+        #If it's the first time encountering the word, show the definition
+        if word not in encountered_words:
+            print(f'\n{word} -> \"{definition}\"')
+
+        user_input = input('\nAnswer: ')
+
+        # Check if the user input matches the definition
+        if user_input.lower() != definition.lower():
+            print('\nGame Over!')
+            print(f'High Score: {high_score}')
+            print(f'You failed on the word: {word}')
+            print(f'Correct Definition: {definition}')
+            return
+
+        # Add word to encountered words and increment the score as they answered correctly
+        encountered_words.add(word)
+        high_score += 1
+        print('Correct!')
+
+    #we have finished the entire for loop, completed every word in the list and the user has won the game
+    print('\nCongratulations! You have completed the game (:)')
+    print(f'\nHigh Score: {high_score}')
 
 
-    return
+
 
 # 2.3 print the new high score when they fail or win, and also a command to start again
 if __name__ == "__main__": #confirms we are running this file specifically
